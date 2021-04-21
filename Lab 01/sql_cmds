@@ -1,0 +1,67 @@
+show databases;
+use insurance;
+create table person(
+driver_id varchar(10),
+name varchar(20),
+address varchar(15),
+primary key(driver_id));
+create table car(
+regno varchar(10),
+modedl varchar(20),
+year date,
+primary key(regno));
+create table accident(
+report_no int,
+adate date,
+location varchar(15),
+primary key(report_no));
+create table owns(
+driver_id varchar(10),
+regno varchar(10),
+primary key(driver_id,regno),
+foreign key(driver_id) references person(driver_id) on delete cascade,
+foreign key(regno) references car(regno) on delete cascade);
+create table participated(
+driver_id varchar(10),
+regno varchar(10),
+report_no int,
+damage_amt float,
+foreign key(driver_id,regno) references owns(driver_id,regno) on delete cascade,
+foreign key(report_no) references accident(report_no) on delete cascade);
+show tables;
+insert into person values('1111','Ramu','K.S.Layout');
+insert into person values('2222','John','Indiranagar');
+insert into person values('3333','Priya','Jayanagar');
+insert into person values('4444','Gopal','Whitefield');
+insert into person values('5555','Latha','Vijaynagar');
+commit;
+select * from person;
+insert into car values('KA04Q2301','MARUTHI-DX','2000-11-10');
+insert into car values('KA05P1000','FORDICON','2000-12-20');
+insert into car values('KA03L1234','ZEN-VXI','1999-05-22');
+insert into car values('KA03L9999','MARUTH-DX ','2002-04-12');
+insert into car values('KA01P4020','INDICA-VX','2002-01-03');
+commit;
+select * from car;
+insert into accident values(12,'2002-06-01','MG road');
+insert into accident values(200,'2002-12-10','Double road');
+insert into accident values(300,'1999-07-23','MG road');
+insert into accident values(2500,'2000-06-11','Residency road');
+insert into accident values(2600,'2001-10-16','Richmond road');
+commit;
+select * from accident;
+insert into owns values('1111','KA04Q2301');
+insert into owns values('1111','KA05P1000');
+insert into owns values('2222','KA03L1234');
+insert into owns values('3333','KA03L9999');
+insert into owns values('4444','KA01P4020');
+commit;
+select * from owns;
+insert into participated values('1111','KA04Q2301',12,20000);
+insert into participated values('2222','KA03L1234',200,500);
+insert into participated values('3333','KA03L9999',300,10000);
+insert into participated values('4444','KA01P4020',2500,2375);
+insert into participated values('2222','KA03L1234',12,10000);
+commit;
+select * from participated;
+update participated set damage_amt=25000 where report_no=12 and regno='KA04Q2301';
