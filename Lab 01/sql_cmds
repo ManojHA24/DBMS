@@ -65,3 +65,4 @@ insert into participated values('2222','KA03L1234',12,10000);
 commit;
 select * from participated;
 update participated set damage_amt=25000 where report_no=12 and regno='KA04Q2301';
+select count(*) from accident where adate like '2002%';
